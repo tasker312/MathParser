@@ -15,7 +15,7 @@ public class MathParser {
         for (String op: OPERATIONS) {
             str = str.replaceAll(String.format("\\%s", op), " " + op + " " );
         }
-        str = str.replaceAll("\\se\\s", " " + Math.E + " ").replaceAll("\\spi\\s", " " + Math.PI + " ");
+        str = str.replaceAll("e", " " + Math.E + " ").replaceAll("pi", " " + Math.PI + " ");
         str = str.replaceAll("\\s+", " ").trim();
         return str;
     }
