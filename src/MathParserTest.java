@@ -86,12 +86,13 @@ class MathParserTest {
     void testManyBrackets1() {
         String expr = "( 6 + 4 * ( 2 - 1 ) ) / 5";
         double actual = calc.calculate(expr);
+        //noinspection PointlessArithmeticExpression
         double expected = (6 + 4 * (2 - 1)) / 5.0;
         assertEquals(expected, actual);
     }
 
     @Test
-    void testManyBrackets2() {
+     void testManyBrackets2() {
         String expr = "( 2 - 3 ) * ( 12 - 10 ) + 4 / 2";
         double actual = calc.calculate(expr);
         double expected = (2 - 3) * (12 - 10) + 4 / 2.0;
@@ -207,6 +208,38 @@ class MathParserTest {
         String expr = "abs(-1*(-4))+abs(-4*4)";
         double actual = calc.calculate(expr);
         double expected = Math.abs(-1 * -4) + Math.abs(-4 * 4);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testNaturalLogarithm() {
+        String expr = "ln(9)";
+        double actual = calc.calculate(expr);
+        double expected = Math.log(9);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testCommonLogarithm() {
+        String expr = "lg(9)";
+        double actual = calc.calculate(expr);
+        double expected = Math.log10(9);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testLogarithm() {
+        String expr = "log(3,9)";
+        double actual = calc.calculate(expr);
+        double expected = Math.log(9) / Math.log(3);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testLogarithmicExpr() {
+        String expr = "log(2,5)*ln(8)/log(2,ln(6))-lg(log(ln(3),5))";
+        double actual = calc.calculate(expr);
+        double expected = (Math.log(5) / Math.log(2)) * Math.log(8) / (Math.log(Math.log(6)) / Math.log(2)) - Math.log10(Math.log(5) / Math.log(Math.log(3)));
         assertEquals(expected, actual);
     }
 

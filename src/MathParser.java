@@ -2,18 +2,18 @@ import java.util.*;
 
 public class MathParser {
     final List<String> OPERATIONS = Arrays.asList("^", "/", "*", "-", "+", "(", ")");
-    final List<String> FUNCTIONS = Arrays.asList("sin", "cos", "tg", "ctg", "sqrt", "abs");
+    final List<String> FUNCTIONS = Arrays.asList("sin", "cos", "tg", "ctg", "sqrt", "abs", "lg", "ln", "log");
 
     private String transformString(String str) {
         str = str.toLowerCase();
         if (str.charAt(0) == '-')
             str = "0" + str;
-        str = str.replaceAll("\\(-", "(0-");
+        str = str.replaceAll("\\(-", "(0-").replaceAll(",", " ");
         for (String func: FUNCTIONS) {
             str = str.replaceAll(func, " " + func + " " );
         }
         for (String op: OPERATIONS) {
-            str = str.replaceAll("\\" + op, " " + op + " " );
+            str = str.replaceAll(String.format("\\%s", op), " " + op + " " );
         }
         str = str.replaceAll("\\se\\s", " " + Math.E + " ").replaceAll("\\spi\\s", " " + Math.PI + " ");
         str = str.replaceAll("\\s+", " ").trim();
@@ -105,6 +105,16 @@ public class MathParser {
                         break;
                     case "abs":
                         result  = String.valueOf(Math.abs(arg));
+                        break;
+                    case "lg":
+                        result  = String.valueOf(Math.log10(arg));
+                        break;
+                    case "ln":
+                        result  = String.valueOf(Math.log(arg));
+                        break;
+                    case "log":
+                        double base = Double.parseDouble(stack.pop());
+                        result  = String.valueOf(Math.log(arg) / Math.log(base));
                         break;
                 }
                 stack.push(result);
